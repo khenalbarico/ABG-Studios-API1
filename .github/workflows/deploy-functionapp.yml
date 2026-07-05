@@ -1,0 +1,54 @@
+# Tests the whole solution, then deploys the Function App.
+#   main -> DEV Function App, prod -> PROD Function App (CLAUDE.md §4)
+#
+# Required per-environment secrets/vars:
+#   secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_DEV / _PROD
+#   vars.FUNCTIONAPP_NAME_DEV / _PROD
+name: Deploy Function App
+
+on:
+  push:
+    branches: [main, prod]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      # Azurite backs the table-store integration tests; without it they
+      # skip, so starting it here keeps CI coverage equal to local runs.
+      - name: Start Azurite
+        run: |
+          npm install -g azurite
+          azurite --silent --location /tmp/azurite &
+
+      - name: Test
+        run: dotnet test --nologo
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Publish
+        run: dotnet publish FunctionApp1/FunctionApp1.csproj -c Release -o publish
+
+      - name: Deploy to Azure Functions
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ github.ref_name == 'prod' && vars.FUNCTIONAPP_NAME_PROD || vars.FUNCTIONAPP_NAME_DEV }}
+          package: publish
+          publish-profile: ${{ github.ref_name == 'prod' && secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_PROD || secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_DEV }}
