@@ -18,4 +18,9 @@
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Abg.Domain\Abg.Domain.csproj" />
+    <ProjectReference Include="..\Abg.Data\Abg.Data.csproj" />
+  </ItemGroup>
+
 </Project>

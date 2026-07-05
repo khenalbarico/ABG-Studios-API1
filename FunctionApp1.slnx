@@ -3,5 +3,6 @@
   <Project Path="Abg.Data/Abg.Data.csproj" />
   <Project Path="Abg.Domain.Tests/Abg.Domain.Tests.csproj" />
   <Project Path="Abg.Domain/Abg.Domain.csproj" />
+  <Project Path="FunctionApp1.Tests/FunctionApp1.Tests.csproj" />
   <Project Path="FunctionApp1/FunctionApp1.csproj" />
 </Solution>

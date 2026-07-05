@@ -7,6 +7,7 @@ namespace Abg.Data.Tables;
 public interface IPurchaseStore
 {
     Task UpsertAsync(string bookingId, PaymongoQrphChargeResult charge, string status, CancellationToken ct = default);
+    Task UpdateStatusAsync(string bookingId, string paymentIntentId, string status, CancellationToken ct = default);
 }
 
 public sealed class PurchaseTableStore(TableServiceClient serviceClient, string tableName = TableNames.Purchases)
@@ -27,5 +28,18 @@ public sealed class PurchaseTableStore(TableServiceClient serviceClient, string 
         };
 
         await table.UpsertEntityAsync(entity, TableUpdateMode.Replace, ct);
+    }
+
+    public async Task UpdateStatusAsync(string bookingId, string paymentIntentId, string status, CancellationToken ct = default)
+    {
+        var table = await GetTableAsync(ct);
+
+        var patch = new TableEntity(bookingId, paymentIntentId)
+        {
+            ["Status"]     = status,
+            ["UpdatedUtc"] = DateTime.UtcNow
+        };
+
+        await table.UpsertEntityAsync(patch, TableUpdateMode.Merge, ct);
     }
 }

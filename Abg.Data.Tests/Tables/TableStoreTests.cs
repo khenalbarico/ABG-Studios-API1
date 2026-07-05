@@ -120,7 +120,10 @@ public class TableStoreTests(AzuriteFixture _azurite) : IClassFixture<AzuriteFix
     {
         var store = new BookingTableStore(_azurite.CreateClient(), AzuriteFixture.UniqueTableName());
 
-        await store.UpsertAsync(Booking("070526-11111111"), userId: "google:abc");
+        var booking = Booking("070526-11111111");
+        booking.UserId = "google:abc";
+
+        await store.UpsertAsync(booking);
 
         var loaded = await store.GetAsync("070526-11111111");
 

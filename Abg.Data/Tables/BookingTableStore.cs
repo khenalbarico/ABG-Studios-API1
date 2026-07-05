@@ -10,7 +10,7 @@ namespace Abg.Data.Tables;
 public interface IBookingStore
 {
     Task<ClientRequest?> GetAsync(string bookingId, CancellationToken ct = default);
-    Task UpsertAsync(ClientRequest request, string userId = "", CancellationToken ct = default);
+    Task UpsertAsync(ClientRequest request, CancellationToken ct = default);
     Task UpdateStatusAsync(string bookingId, ClientStatus status, CancellationToken ct = default);
     Task UpdateServiceStatusAsync(string bookingId, string serviceUid, ClientServiceStatus status, CancellationToken ct = default);
 }
@@ -36,7 +36,7 @@ public sealed class BookingTableStore(TableServiceClient serviceClient, string t
         }
     }
 
-    public async Task UpsertAsync(ClientRequest request, string userId = "", CancellationToken ct = default)
+    public async Task UpsertAsync(ClientRequest request, CancellationToken ct = default)
     {
         var table     = await GetTableAsync(ct);
         var bookingId = request.ClientInformation.ClientBookingId;
@@ -46,7 +46,7 @@ public sealed class BookingTableStore(TableServiceClient serviceClient, string t
             ["RequestJson"] = JsonSerializer.Serialize(request),
             ["Status"]      = request.Status.ToString(),
             ["Email"]       = request.ClientInformation.Email,
-            ["UserId"]      = userId,
+            ["UserId"]      = request.UserId,
             ["BookingDate"] = request.ClientInformation.BookingDate.ToString("o", CultureInfo.InvariantCulture)
         };
 
