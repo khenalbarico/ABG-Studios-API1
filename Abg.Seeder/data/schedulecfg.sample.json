@@ -1,0 +1,13 @@
+{
+  "StoreHours": ["10:00 AM - 7:00 PM"],
+  "NailsAccommodationCapacities": {
+    "10:00 AM": 2,
+    "11:00 AM": 2,
+    "1:00 PM": 2,
+    "3:00 PM": 2
+  },
+  "OtherServicesAccommodationCapacities": {
+    "10:00 AM": 1,
+    "1:00 PM": 1
+  }
+}

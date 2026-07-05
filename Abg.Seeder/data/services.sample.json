@@ -1,0 +1,26 @@
+{
+  "Nails": [
+    {
+      "Uid": "NAS-100",
+      "Cost": 500,
+      "Details": "Gel polish",
+      "ScheduleSlots": {
+        "IsAvailable": true,
+        "DaySlots": ["Monday", "Wednesday", "Friday", "Saturday"],
+        "TimeSlots": ["10:00 AM - 11:00 AM", "11:00 AM - 12:00 PM", "1:00 PM - 2:00 PM", "3:00 PM - 4:00 PM"]
+      }
+    }
+  ],
+  "Lash": [
+    {
+      "Uid": "LAS-200",
+      "Cost": 700,
+      "Details": "Classic lash set",
+      "ScheduleSlots": {
+        "IsAvailable": true,
+        "DaySlots": ["Tuesday", "Thursday", "Saturday"],
+        "TimeSlots": ["10:00 AM - 12:00 PM", "1:00 PM - 3:00 PM"]
+      }
+    }
+  ]
+}
