@@ -1,4 +1,3 @@
-using Abg.Data.Firebase;
 using Abg.Data.Tables;
 using Abg.Domain.Algorithms;
 using Abg.Domain.Client;

@@ -1,4 +1,3 @@
-using Abg.Data.Firebase;
 using Abg.Data.Paymongo;
 using Abg.Data.Tables;
 using Microsoft.Extensions.Logging;

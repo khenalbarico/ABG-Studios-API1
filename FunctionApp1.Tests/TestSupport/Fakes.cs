@@ -1,4 +1,3 @@
-using Abg.Data.Firebase;
 using Abg.Data.Paymongo;
 using Abg.Data.Paymongo.Models;
 using Abg.Data.Tables;
@@ -24,14 +23,6 @@ public sealed class FakeHoldStore : IBookingHoldStore
     public Task PutHoldAsync(ClientRequest request, CancellationToken ct = default)
     {
         Holds[request.ClientInformation.ClientBookingId] = request;
-        return Task.CompletedTask;
-    }
-
-    public Task SetHoldStatusAsync(string bookingId, ClientStatus status, CancellationToken ct = default)
-    {
-        if (Holds.TryGetValue(bookingId, out var hold))
-            hold.Status = status;
-
         return Task.CompletedTask;
     }
 
